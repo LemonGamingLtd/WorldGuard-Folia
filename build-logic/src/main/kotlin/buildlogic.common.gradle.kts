@@ -12,6 +12,13 @@ version = rootProject.version
 repositories {
     mavenCentral()
     maven {
+        credentials {
+            username = providers.gradleProperty("lgNexusUser").get()
+            password = providers.gradleProperty("lgNexusPass").get()
+        }
+        url = uri("https://repo.lemongaming.ltd/repository/maven-public/")
+    }
+    maven {
         name = "EngineHub"
         url = uri("https://maven.enginehub.org/repo/")
     }
