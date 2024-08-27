@@ -39,7 +39,6 @@ import com.sk89q.worldguard.session.handler.GameModeFlag;
 import com.sk89q.worldguard.util.Entities;
 import com.sk89q.worldguard.util.command.CommandFilter;
 import com.sk89q.worldguard.util.profile.Profile;
-import ltd.lemongaming.citrus.event.ThrownEnderPearlHitEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
