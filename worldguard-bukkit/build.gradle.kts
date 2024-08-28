@@ -25,7 +25,7 @@ configurations {
 
 dependencies {
     "api"(project(":worldguard-core"))
-    "compileOnly"("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
+    "compileOnly"("ltd.lemongaming.citrus:citrus-api:1.20.6-R0.1-20240819.164556-9")
     "runtimeOnly"("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT") {
         exclude("junit", "junit")
     }

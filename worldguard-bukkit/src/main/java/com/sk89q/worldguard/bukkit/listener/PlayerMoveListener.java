@@ -40,7 +40,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
-import org.spigotmc.event.entity.EntityMountEvent;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerMoveListener extends AbstractListener {

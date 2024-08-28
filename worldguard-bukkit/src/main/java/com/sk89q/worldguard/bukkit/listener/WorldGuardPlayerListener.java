@@ -349,6 +349,48 @@ public class WorldGuardPlayerListener extends AbstractListener {
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onThrownEnderPearlProjectileEvent(ltd.lemongaming.citrus.event.ThrownEnderPearlHitEvent event) {
+        if (!(event.getSource() instanceof Player player) || com.sk89q.worldguard.bukkit.util.Entities.isNPC(player)) {
+            return;
+        }
+        LocalPlayer localPlayer = getPlugin().wrapPlayer(player);
+        ConfigurationManager cfg = getConfig();
+        WorldConfiguration wcfg = getWorldConfig(player.getWorld());
+        if (!wcfg.useRegions || !cfg.usePlayerTeleports) {
+            return;
+        }
+
+        if (WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) {
+            return;
+        }
+
+        org.bukkit.Location from = player.getLocation();
+        org.bukkit.Location to = event.getHitBlock().getLocation();
+
+        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+        ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(to));
+        ApplicableRegionSet setFrom = query.getApplicableRegions(BukkitAdapter.adapt(from));
+
+        boolean cancel = false;
+        String message = null;
+
+        if (!setFrom.testState(localPlayer, Flags.ENDERPEARL)) {
+            cancel = true;
+            message = setFrom.queryValue(localPlayer, Flags.EXIT_DENY_MESSAGE);
+        } else if (!set.testState(localPlayer, Flags.ENDERPEARL)) {
+            cancel = true;
+            message = set.queryValue(localPlayer, Flags.ENTRY_DENY_MESSAGE);
+        }
+
+        if (cancel) {
+            if (message != null && !message.isEmpty()) {
+                player.sendMessage(message);
+            }
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         if (com.sk89q.worldguard.bukkit.util.Entities.isNPC(player)) return;
